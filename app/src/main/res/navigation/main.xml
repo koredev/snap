@@ -1,0 +1,18 @@
+<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            app:startDestination="@id/snapFragment">
+
+    <fragment
+            android:id="@+id/snapFragment"
+            android:name="com.koredev.snap.ui.snap.SnapFragment"
+            android:label="SnapFragment" >
+        <action
+                android:id="@+id/showSnaps"
+                app:destination="@id/snapsFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/snapsFragment"
+            android:name="com.koredev.snap.ui.snaps.SnapsFragment"
+            android:label="SnapsFragment" >
+    </fragment>
+</navigation>
