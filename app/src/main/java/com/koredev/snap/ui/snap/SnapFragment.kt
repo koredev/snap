@@ -16,6 +16,8 @@ import com.koredev.snap.di.Injectable
 import com.koredev.snap.lib.FragmentDataBindingComponent
 import com.koredev.snap.util.autoCleared
 import com.koredev.snap.util.hideSystemUi
+import com.koredev.snap.util.requestCameraPermissions
+import kotlinx.android.synthetic.main.snap_fragment.*
 import javax.inject.Inject
 
 class SnapFragment : Fragment(), Injectable {
@@ -32,6 +34,7 @@ class SnapFragment : Fragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        requestCameraPermissions()
         hideSystemUi()
         snapViewModel = ViewModelProviders.of(this, viewModelFactory).get(SnapViewModel::class.java)
     }
@@ -46,5 +49,15 @@ class SnapFragment : Fragment(), Injectable {
         )
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cameraView.start()
+    }
+
+    override fun onPause() {
+        cameraView.stop()
+        super.onPause()
     }
 }

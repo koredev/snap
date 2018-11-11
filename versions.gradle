@@ -48,7 +48,13 @@ versions.google_services = "4.0.1"
 versions.material = "1.0.0"
 versions.coroutines = "1.0.0"
 versions.ktlint = "0.29.0"
+versions.tensorflow = "+"
+versions.dexter = "5.0.0"
 def deps = [:]
+
+def tensorflow = [:]
+tensorflow.android = "org.tensorflow:tensorflow-android:$versions.tensorflow"
+deps.tensorflow = tensorflow
 
 def coroutines = [:]
 coroutines.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
@@ -162,6 +168,7 @@ deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_g
 deps.google_services = "com.google.gms:google-services:$versions.google_services"
 deps.material = "com.google.android.material:material:$versions.material"
 deps.ktlint = "com.github.shyiko:ktlint:$versions.ktlint"
+deps.dexter = "com.karumi:dexter:$versions.dexter"
 
 ext.deps = deps
 

@@ -1,5 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+// It is necessary to customize Gradle's build directory, as otherwise
+// it will conflict with the BUILD file used by Bazel on case-insensitive OSs.
+// set to 'bazel', 'cmake', 'makefile', 'none'
+def nativeBuildSystem = 'cmake'
+
 buildscript {
     apply from: 'versions.gradle'
     addRepos(repositories)

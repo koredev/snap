@@ -1,4 +1,4 @@
-package com.jameswoo.snapcamera;
+package com.koredev.snapcamera;
 
 import org.junit.Test;
 

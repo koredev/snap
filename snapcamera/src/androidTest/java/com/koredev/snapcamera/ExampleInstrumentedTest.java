@@ -1,4 +1,4 @@
-package com.jameswoo.snapcamera;
+package com.koredev.snapcamera;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.jameswoo.snapcamera.test", appContext.getPackageName());
+        assertEquals("com.koredev.snapcamera.test", appContext.getPackageName());
     }
 }

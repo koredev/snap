@@ -41,8 +41,9 @@ configurations {
 }
 
 dependencies {
-    ktlint deps.ktlint
+    implementation project(':snapcamera')
 
+    ktlint deps.ktlint
     implementation deps.support.app_compat
     implementation deps.support.recyclerview
     implementation deps.support.cardview
@@ -59,37 +60,30 @@ dependencies {
     implementation deps.material
     implementation deps.coroutines.android
     implementation deps.coroutines.core
-
     implementation deps.dagger.runtime
     implementation deps.dagger.android
     implementation deps.dagger.android_support
     implementation deps.constraint_layout
     implementation deps.kotlin.stdlib
-
     implementation deps.timber
-
+    implementation deps.dexter
     kapt deps.dagger.android_support_compiler
     kapt deps.dagger.compiler
     kapt deps.room.compiler
     kapt deps.lifecycle.compiler
-
     testImplementation deps.junit
     testImplementation deps.mock_web_server
     testImplementation deps.arch_core.testing
     testImplementation deps.mockito.core
-
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.atsl.rules
-
     androidTestImplementation deps.navigation.testing
     androidTestImplementation deps.support.app_compat
     androidTestImplementation deps.support.recyclerview
     androidTestImplementation deps.support.cardview
     androidTestImplementation deps.support.design
-
     androidTestImplementation deps.espresso.core
     androidTestImplementation deps.espresso.contrib
-
     androidTestImplementation deps.arch_core.testing
     androidTestImplementation deps.mockito.core
     androidTestImplementation deps.mockito.android

@@ -2,7 +2,6 @@ package com.koredev.snap
 
 import android.app.Activity
 import android.app.Application
-import com.google.firebase.FirebaseApp
 import com.koredev.snap.di.AppInjector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
