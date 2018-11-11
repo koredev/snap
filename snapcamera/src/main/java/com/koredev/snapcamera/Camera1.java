@@ -598,7 +598,6 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
         for (Size size : sizes) { // Iterate from small to large
             if (desiredWidth <= size.getWidth() && desiredHeight <= size.getHeight()) {
                 return size;
-
             }
             result = size;
         }
@@ -660,8 +659,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
      * @return True if in landscape, false if portrait
      */
     private boolean isLandscape(int orientationDegrees) {
-        return (orientationDegrees == Constants.LANDSCAPE_90 ||
-                orientationDegrees == Constants.LANDSCAPE_270);
+        return (orientationDegrees == Constants.LANDSCAPE_90 || orientationDegrees == Constants.LANDSCAPE_270);
     }
 
     /**
@@ -837,8 +835,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
 
     @Override
     public void onInfo(MediaRecorder mr, int what, int extra) {
-        if ( what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED ||
-                what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED) {
+        if ( what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED || what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED) {
             stopRecording();
         }
     }

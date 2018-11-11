@@ -1,5 +1,6 @@
 package com.koredev.snap.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -12,9 +13,9 @@ import java.io.Serializable
     tableName = "snap"
 )
 data class Snap(
-    @PrimaryKey
-    val id: Int,
-    val snapId: String,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Long = 0,
     val path: String?,
-    val date: Long
+    val date: Long = System.currentTimeMillis()
 ): Serializable

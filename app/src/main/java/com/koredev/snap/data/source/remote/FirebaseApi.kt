@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class FirebaseApi @Inject constructor(
     val firestore: FirebaseFirestore
-) : ApiInterface {
-    override fun getSnaps(): LiveData<List<Snap>> {
+) {
+    fun getSnaps(): LiveData<List<Snap>> {
         val snaps: MutableLiveData<List<Snap>> = MutableLiveData()
 
         firestore.collection("snaps").get().addOnCompleteListener {
@@ -17,5 +17,9 @@ class FirebaseApi @Inject constructor(
         }
 
         return snaps
+    }
+
+    fun saveSnap(snap: Snap) {
+        firestore.collection("snaps").add(snap)
     }
 }

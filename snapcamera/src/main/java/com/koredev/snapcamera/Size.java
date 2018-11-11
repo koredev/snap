@@ -103,9 +103,7 @@ public class Size implements Comparable<Size>, Parcelable {
         dest.writeInt(mHeight);
     }
 
-    public static final Parcelable.Creator<Size> CREATOR
-            = new Parcelable.Creator<Size>() {
-
+    public static final Parcelable.Creator<Size> CREATOR = new Parcelable.Creator<Size>() {
         @Override
         public Size createFromParcel(Parcel source) {
             int width = source.readInt();

@@ -26,9 +26,7 @@ import androidx.collection.SparseArrayCompat;
  */
 public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
 
-    private final static SparseArrayCompat<SparseArrayCompat<AspectRatio>> sCache
-            = new SparseArrayCompat<>(16);
-
+    private final static SparseArrayCompat<SparseArrayCompat<AspectRatio>> sCache = new SparseArrayCompat<>(16);
     private final int mX;
     private final int mY;
 
@@ -170,9 +168,7 @@ public class AspectRatio implements Comparable<AspectRatio>, Parcelable {
         dest.writeInt(mY);
     }
 
-    public static final Parcelable.Creator<AspectRatio> CREATOR
-            = new Parcelable.Creator<AspectRatio>() {
-
+    public static final Parcelable.Creator<AspectRatio> CREATOR = new Parcelable.Creator<AspectRatio>() {
         @Override
         public AspectRatio createFromParcel(Parcel source) {
             int x = source.readInt();

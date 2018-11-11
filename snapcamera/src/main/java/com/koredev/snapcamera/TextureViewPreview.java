@@ -28,14 +28,14 @@ import android.view.ViewGroup;
 @TargetApi(14)
 class TextureViewPreview extends PreviewImpl {
 
-    private final TextureView mTextureView;
+    private final TextureView textureView;
 
     private int mDisplayOrientation;
 
     TextureViewPreview(Context context, ViewGroup parent) {
         final View view = View.inflate(context, R.layout.texture_view, parent);
-        mTextureView = (TextureView) view.findViewById(R.id.texture_view);
-        mTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+        textureView = view.findViewById(R.id.texture_view);
+        textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
 
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
@@ -68,22 +68,22 @@ class TextureViewPreview extends PreviewImpl {
     @TargetApi(15)
     @Override
     void setBufferSize(int width, int height) {
-        mTextureView.getSurfaceTexture().setDefaultBufferSize(width, height);
+        textureView.getSurfaceTexture().setDefaultBufferSize(width, height);
     }
 
     @Override
     Surface getSurface() {
-        return new Surface(mTextureView.getSurfaceTexture());
+        return new Surface(textureView.getSurfaceTexture());
     }
 
     @Override
     SurfaceTexture getSurfaceTexture() {
-        return mTextureView.getSurfaceTexture();
+        return textureView.getSurfaceTexture();
     }
 
     @Override
     View getView() {
-        return mTextureView;
+        return textureView;
     }
 
     @Override
@@ -99,7 +99,7 @@ class TextureViewPreview extends PreviewImpl {
 
     @Override
     boolean isReady() {
-        return mTextureView.getSurfaceTexture() != null;
+        return textureView.getSurfaceTexture() != null;
     }
 
     /**
@@ -138,7 +138,7 @@ class TextureViewPreview extends PreviewImpl {
         } else if (mDisplayOrientation == 180) {
             matrix.postRotate(180, getWidth() / 2, getHeight() / 2);
         }
-        mTextureView.setTransform(matrix);
+        textureView.setTransform(matrix);
     }
 
 }

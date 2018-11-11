@@ -18,6 +18,7 @@ package com.koredev.snapcamera;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.SurfaceTexture;
 import android.media.CamcorderProfile;
 import android.os.Build;
@@ -29,8 +30,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.os.ParcelableCompat;
-import androidx.core.os.ParcelableCompatCreatorCallbacks;
 import androidx.core.view.ViewCompat;
 
 import java.lang.annotation.Retention;
@@ -99,7 +98,6 @@ public class SnapCameraView extends FrameLayout {
             mDisplayOrientationDetector = null;
             return;
         }
-        mAdjustViewBounds = true;
         mContext = context;
 
         // Internal setup
@@ -110,6 +108,20 @@ public class SnapCameraView extends FrameLayout {
         } else {
             mImpl = new Camera2Api23(mCallbacks, preview, context);
         }
+
+        // Attributes
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SnapCameraView, defStyleAttr, R.style.Widget_CameraView);
+        mAdjustViewBounds = a.getBoolean(R.styleable.SnapCameraView_android_adjustViewBounds, false);
+        setFacing(a.getInt(R.styleable.SnapCameraView_facing, FACING_BACK));
+        String aspectRatio = a.getString(R.styleable.SnapCameraView_aspectRatio);
+        if (aspectRatio != null) {
+            setAspectRatio(AspectRatio.parse(aspectRatio));
+        } else {
+            setAspectRatio(Constants.DEFAULT_ASPECT_RATIO);
+        }
+        setAutoFocus(a.getBoolean(R.styleable.SnapCameraView_autoFocus, true));
+        setFlash(a.getInt(R.styleable.SnapCameraView_flash, Constants.FLASH_AUTO));
+        a.recycle();
 
         // Display orientation detector
         mDisplayOrientationDetector = new DisplayOrientationDetector(context) {
@@ -122,13 +134,7 @@ public class SnapCameraView extends FrameLayout {
 
     @NonNull
     private PreviewImpl createPreviewImpl(Context context) {
-        PreviewImpl preview;
-        if (Build.VERSION.SDK_INT < 14) {
-            preview = new SurfaceViewPreview(context, this);
-        } else {
-            preview = new TextureViewPreview(context, this);
-        }
-        return preview;
+        return new TextureViewPreview(context, this);
     }
 
     @Override
@@ -197,12 +203,10 @@ public class SnapCameraView extends FrameLayout {
         if (height < width * ratio.getY() / ratio.getX()) {
             mImpl.getView().measure(
                     MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(width * ratio.getY() / ratio.getX(),
-                            MeasureSpec.EXACTLY));
+                    MeasureSpec.makeMeasureSpec(width * ratio.getY() / ratio.getX(), MeasureSpec.EXACTLY));
         } else {
             mImpl.getView().measure(
-                    MeasureSpec.makeMeasureSpec(height * ratio.getX() / ratio.getY(),
-                            MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(height * ratio.getX() / ratio.getY(), MeasureSpec.EXACTLY),
                     MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
         }
     }
@@ -242,10 +246,6 @@ public class SnapCameraView extends FrameLayout {
     }
 
     public void setUsingCamera2Api(boolean useCamera2) {
-        if (Build.VERSION.SDK_INT < 21) {
-            return;
-        }
-
         boolean wasOpened = isCameraOpened();
         Parcelable state = onSaveInstanceState();
 
@@ -616,25 +616,16 @@ public class SnapCameraView extends FrameLayout {
     }
 
     protected static class SavedState extends BaseSavedState {
-
         @Facing
         int facing;
-
         AspectRatio ratio;
-
         boolean autoFocus;
-
         @Flash
         int flash;
-
         float focusDepth;
-
         float zoom;
-
         int whiteBalance;
-
         boolean scanning;
-
         Size pictureSize;
 
         @SuppressWarnings("WrongConstant")
@@ -649,6 +640,19 @@ public class SnapCameraView extends FrameLayout {
             whiteBalance = source.readInt();
             scanning = source.readByte() != 0;
             pictureSize = source.readParcelable(loader);
+        }
+
+        public SavedState(Parcel source) {
+            super(source);
+            facing = source.readInt();
+            ratio = AspectRatio.CREATOR.createFromParcel(source);
+            autoFocus = source.readByte() != 0;
+            flash = source.readInt();
+            focusDepth = source.readFloat();
+            zoom = source.readFloat();
+            whiteBalance = source.readInt();
+            scanning = source.readByte() != 0;
+            pictureSize = Size.CREATOR.createFromParcel(source);
         }
 
         public SavedState(Parcelable superState) {
@@ -669,12 +673,10 @@ public class SnapCameraView extends FrameLayout {
             out.writeParcelable(pictureSize, flags);
         }
 
-        public static final Creator<SavedState> CREATOR
-                = ParcelableCompat.newCreator(new ParcelableCompatCreatorCallbacks<SavedState>() {
-
+        public static final Creator<SavedState> CREATOR = new Parcelable.ClassLoaderCreator<SavedState>() {
             @Override
-            public SavedState createFromParcel(Parcel in, ClassLoader loader) {
-                return new SavedState(in, loader);
+            public SavedState createFromParcel(Parcel source) {
+                return new SavedState(source);
             }
 
             @Override
@@ -682,8 +684,11 @@ public class SnapCameraView extends FrameLayout {
                 return new SavedState[size];
             }
 
-        });
-
+            @Override
+            public SavedState createFromParcel(Parcel source, ClassLoader loader) {
+                return new SavedState(source, loader);
+            }
+        };
     }
 
     /**

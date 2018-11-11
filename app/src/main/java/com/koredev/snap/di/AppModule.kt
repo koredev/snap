@@ -1,6 +1,7 @@
 package com.koredev.snap.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,6 +12,12 @@ import javax.inject.Singleton
 
 @Module(includes = [ViewModelModule::class])
 class AppModule {
+    @Provides
+    @Singleton
+    fun provideContext(app: Application): Context {
+        return app
+    }
+
     @Provides
     @Singleton
     fun provideSnapsDatabase(app: Application): SnapsDatabase {

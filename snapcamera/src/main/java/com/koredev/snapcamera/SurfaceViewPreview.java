@@ -22,12 +22,12 @@ import androidx.core.view.ViewCompat;
 
 class SurfaceViewPreview extends PreviewImpl {
 
-    final SurfaceView mSurfaceView;
+    final SurfaceView surfaceView;
 
     SurfaceViewPreview(Context context, ViewGroup parent) {
         final View view = View.inflate(context, R.layout.surface_view, parent);
-        mSurfaceView = view.findViewById(R.id.surface_view);
-        final SurfaceHolder holder = mSurfaceView.getHolder();
+        surfaceView = view.findViewById(R.id.surface_view);
+        final SurfaceHolder holder = surfaceView.getHolder();
         //noinspection deprecation
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         holder.addCallback(new SurfaceHolder.Callback() {
@@ -38,7 +38,7 @@ class SurfaceViewPreview extends PreviewImpl {
             @Override
             public void surfaceChanged(SurfaceHolder h, int format, int width, int height) {
                 setSize(width, height);
-                if (!ViewCompat.isInLayout(mSurfaceView)) {
+                if (!ViewCompat.isInLayout(surfaceView)) {
                     dispatchSurfaceChanged();
                 }
             }
@@ -57,12 +57,12 @@ class SurfaceViewPreview extends PreviewImpl {
 
     @Override
     SurfaceHolder getSurfaceHolder() {
-        return mSurfaceView.getHolder();
+        return surfaceView.getHolder();
     }
 
     @Override
     View getView() {
-        return mSurfaceView;
+        return surfaceView;
     }
 
     @Override
