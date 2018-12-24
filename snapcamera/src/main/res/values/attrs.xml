@@ -54,5 +54,6 @@
             -->
             <enum name="redEye" value="4"/>
         </attr>
+        <attr name="scanning" format="boolean"/>
     </declare-styleable>
 </resources>

@@ -1,6 +1,5 @@
 package com.koredev.snap.util
 
-import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
@@ -12,19 +11,21 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-fun Fragment.requestCameraPermissions() {
-    GlobalScope.launch {
+fun Fragment.requestPermission(permission: String, onSuccess: () -> Unit, onError: () -> Unit) {
+    GlobalScope.launch(Dispatchers.Main) {
         val granted = suspendCoroutine<Boolean> {
             Dexter.withActivity(activity)
-                .withPermission(Manifest.permission.CAMERA)
+                .withPermission(permission)
                 .withListener(object: PermissionListener {
                     override fun onPermissionGranted(response: PermissionGrantedResponse) {
                         it.resume(true)
+                        onSuccess.invoke()
                     }
 
                     override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest, token: PermissionToken) {
@@ -42,11 +43,13 @@ fun Fragment.requestCameraPermissions() {
                         builder.setNegativeButton("Cancel") { dialog, _ ->
                             dialog.cancel()
                             it.resume(false)
+                            onError.invoke()
                         }
                         builder.show()
                         if (response.isPermanentlyDenied) {
                             openSettings()
                             it.resume(false)
+                            onError.invoke()
                         }
                     }
                 }).check()

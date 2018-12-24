@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/snap.iml" filepath="$PROJECT_DIR$/.idea/snap.iml" />
       <module fileurl="file://$PROJECT_DIR$/snap.iml" filepath="$PROJECT_DIR$/snap.iml" />
       <module fileurl="file://$PROJECT_DIR$/snapcamera/snapcamera.iml" filepath="$PROJECT_DIR$/snapcamera/snapcamera.iml" />
     </modules>

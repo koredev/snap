@@ -121,6 +121,7 @@ public class SnapCameraView extends FrameLayout {
         }
         setAutoFocus(a.getBoolean(R.styleable.SnapCameraView_autoFocus, true));
         setFlash(a.getInt(R.styleable.SnapCameraView_flash, Constants.FLASH_AUTO));
+        setScanning(a.getBoolean(R.styleable.SnapCameraView_scanning, false));
         a.recycle();
 
         // Display orientation detector
@@ -243,35 +244,6 @@ public class SnapCameraView extends FrameLayout {
         setWhiteBalance(ss.whiteBalance);
         setScanning(ss.scanning);
         setPictureSize(ss.pictureSize);
-    }
-
-    public void setUsingCamera2Api(boolean useCamera2) {
-        boolean wasOpened = isCameraOpened();
-        Parcelable state = onSaveInstanceState();
-
-        if (useCamera2) {
-            if (wasOpened) {
-                stop();
-            }
-            if (Build.VERSION.SDK_INT < 23) {
-                mImpl = new Camera2(mCallbacks, mImpl.mPreview, mContext);
-            } else {
-                mImpl = new Camera2Api23(mCallbacks, mImpl.mPreview, mContext);
-            }
-        } else {
-            if (mImpl instanceof Camera1) {
-                return;
-            }
-
-            if (wasOpened) {
-                stop();
-            }
-            mImpl = new Camera1(mCallbacks, mImpl.mPreview);
-        }
-        onRestoreInstanceState(state);
-        if (wasOpened) {
-            start();
-        }
     }
 
     /**

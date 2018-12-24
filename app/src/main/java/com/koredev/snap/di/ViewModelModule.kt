@@ -2,7 +2,6 @@ package com.koredev.snap.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.koredev.snap.lib.SnapViewModelFactory
 import com.koredev.snap.ui.snap.SnapViewModel
 import com.koredev.snap.ui.snaps.SnapsViewModel
 import dagger.Binds

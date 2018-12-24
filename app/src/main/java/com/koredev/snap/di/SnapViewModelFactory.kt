@@ -1,4 +1,4 @@
-package com.koredev.snap.lib
+package com.koredev.snap.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
