@@ -40,14 +40,12 @@ object BitmapUtil {
             Surface.ROTATION_270 -> 270f
             else -> 0f
         }
-        // Rotate the image back to straight.}
+        // Rotate the image back to straight.
         matrix.postRotate(rotationDegree)
-        return if (facing == SnapCameraView.FACING_BACK) {
-            Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-        } else {
-            // Mirror the image along X axis for front-facing camera image.
+        // Mirror the image along X axis for front-facing camera image.
+        if (facing == SnapCameraView.FACING_FRONT) {
             matrix.postScale(-1.0f, 1.0f)
-            Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
         }
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 }

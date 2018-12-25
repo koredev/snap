@@ -676,8 +676,12 @@ public class SnapCameraView extends FrameLayout {
     @SuppressWarnings("UnusedParameters")
     public abstract static class Callback {
 
+        /**
+         * Called when camera is ready.
+         *
+         * @param cameraView The associated {@link SnapCameraView}.
+         */
         public void onCameraReady(SnapCameraView cameraView) {
-
         }
 
         /**

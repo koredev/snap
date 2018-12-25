@@ -39,12 +39,10 @@ class SnapOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) 
         val size = cameraView.previewSize
         val min = Math.min(size.width, size.height)
         val max = Math.max(size.width, size.height)
-        if (isPortraitMode()) {
-            // Swap width and height sizes when in portrait, since it will be rotated by 90 degrees
-            setCameraInfo(min, max, cameraView.facing)
-        } else {
-            setCameraInfo(max, min, cameraView.facing)
-        }
+        // Swap width and height sizes when in portrait, since it will be rotated by 90 degrees
+        previewWidth = if (isPortraitMode()) min else max
+        previewHeight = if (isPortraitMode()) max else min
+        facing = cameraView.facing
         clear()
     }
 
@@ -65,13 +63,6 @@ class SnapOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
     fun remove(graphic: Graphic) {
         graphics.remove(graphic)
-        postInvalidate()
-    }
-
-    private fun setCameraInfo(previewWidth: Int, previewHeight: Int, facing: Int) {
-        this.previewWidth = previewWidth
-        this.previewHeight = previewHeight
-        this.facing = facing
         postInvalidate()
     }
 

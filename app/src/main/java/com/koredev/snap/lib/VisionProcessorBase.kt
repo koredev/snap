@@ -79,7 +79,9 @@ abstract class VisionProcessorBase<T> : VisionImageProcessor {
     }
 
     override fun stop() {}
+
     protected abstract fun detectInImage(image: FirebaseVisionImage): Task<T>
+
     /**
      * Callback that executes with a successful detection result.
      *
