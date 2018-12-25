@@ -34,6 +34,9 @@ android {
     lintOptions {
         lintConfig rootProject.file('lint.xml')
     }
+    aaptOptions {
+        noCompress "tflite"
+    }
 }
 
 configurations {
@@ -56,6 +59,8 @@ dependencies {
     implementation deps.glide.runtime
     implementation deps.firebase.core
     implementation deps.firebase.auth
+    implementation deps.firebase.vision
+    implementation deps.firebase.vision_face_model
     implementation deps.firebase.firestore
     implementation deps.material
     implementation deps.coroutines.android
@@ -67,6 +72,7 @@ dependencies {
     implementation deps.kotlin.stdlib
     implementation deps.timber
     implementation deps.dexter
+    implementation deps.tensorflow.lite
     kapt deps.dagger.android_support_compiler
     kapt deps.dagger.compiler
     kapt deps.room.compiler

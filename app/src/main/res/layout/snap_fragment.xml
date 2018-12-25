@@ -13,7 +13,7 @@
         android:adjustViewBounds="true"
         app:autoFocus="true"
         app:scanning="true"
-        app:facing="back"
+        app:facing="front"
         app:flash="auto"/>
 
     <com.koredev.snap.ui.snap.SnapOverlay

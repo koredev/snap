@@ -12,22 +12,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.koredev.snap.R
 import com.koredev.snap.di.Injectable
+import com.koredev.snap.ui.snap.facedetection.FaceContourDetectorProcessor
 import com.koredev.snap.util.hideSystemUi
 import com.koredev.snap.util.requestPermission
 import com.koredev.snapcamera.SnapCameraView
 import kotlinx.android.synthetic.main.snap_fragment.*
+import java.nio.ByteBuffer
 import javax.inject.Inject
 
 class SnapFragment : Fragment(), Injectable {
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     lateinit var snapViewModel: SnapViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        snapViewModel = ViewModelProviders.of(this, viewModelFactory).get(SnapViewModel::class.java)
         hideSystemUi()
+        snapViewModel = ViewModelProviders.of(this, viewModelFactory).get(SnapViewModel::class.java)
         return inflater.inflate(R.layout.snap_fragment, container, false)
     }
 
@@ -39,16 +39,32 @@ class SnapFragment : Fragment(), Injectable {
         cameraButton.setOnClickListener {
             snapViewModel.handleViewAction(SnapViewAction.PhotoButtonPressed)
         }
-        cameraView.addCallback(object: SnapCameraView.Callback() {
+        cameraView.addCallback(object : SnapCameraView.Callback() {
             override fun onPictureTaken(cameraView: SnapCameraView, data: ByteArray) {
-                snapViewModel.handleViewAction(SnapViewAction.ImageReady(data))
+                snapViewModel.handleViewAction(SnapViewAction.ImageReady(ByteBuffer.wrap(data)))
             }
-            override fun onFramePreview(cameraView: SnapCameraView, data: ByteArray, width: Int, height: Int, orientation: Int) {
-                snapViewModel.handleViewAction(SnapViewAction.ProcessFrame(data, width, height, orientation))
+
+            override fun onCameraReady(cameraView: SnapCameraView) {
+                overlay.start(cameraView)
+            }
+
+            override fun onFramePreview(
+                cameraView: SnapCameraView,
+                data: ByteArray,
+                width: Int,
+                height: Int,
+                orientation: Int
+            ) {
+                overlay.render(
+                    data = ByteBuffer.wrap(data),
+                    width = width,
+                    height = height,
+                    rotation = orientation,
+                    facing = cameraView.facing)
             }
         })
 
-        overlay.add(BoxGraphic())
+        overlay.setMachineLearningFrameProcessor(FaceContourDetectorProcessor())
     }
 
     override fun onResume() {
@@ -69,7 +85,6 @@ class SnapFragment : Fragment(), Injectable {
         when (action) {
             is SnapAction.TakePhoto -> cameraView.takePicture()
             is SnapAction.CaptureImage -> Toast.makeText(context, "Image Captured", Toast.LENGTH_SHORT).show()
-            is SnapAction.RequestRender -> overlay.render()
         }
     }
 }

@@ -47,7 +47,7 @@ class SnapsRepository @Inject constructor(
         val file = File(Environment.getExternalStorageDirectory(), "Snap/snap_$date.jpeg")
         try {
             val stream = FileOutputStream(file.path)
-            stream.write(snap.data)
+            stream.write(snap.data.array())
             stream.close()
         } catch (ex: Exception) {
             Timber.e(TAG, ex)
@@ -56,7 +56,6 @@ class SnapsRepository @Inject constructor(
         saveSnapToApi(Snap(path = file.path))
         saveSnapToDb(Snap(path = file.path))
     }
-
 
     private fun getSnapsFromApi(): LiveData<List<Snap>> {
         return firestore.getSnaps()

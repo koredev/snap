@@ -1,4 +1,5 @@
 package com.koredev.snap.data
 
-data class SnapRaw(val data: ByteArray) {
-}
+import java.nio.ByteBuffer
+
+data class SnapRaw(val data: ByteBuffer)

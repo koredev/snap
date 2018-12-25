@@ -537,6 +537,13 @@ public class SnapCameraView extends FrameLayout {
         }
 
         @Override
+        public void onCameraReady() {
+            for (Callback callback : mCallbacks) {
+                callback.onCameraReady(SnapCameraView.this);
+            }
+        }
+
+        @Override
         public void onCameraOpened() {
             if (mRequestLayoutOnOpen) {
                 mRequestLayoutOnOpen = false;
@@ -668,6 +675,10 @@ public class SnapCameraView extends FrameLayout {
      */
     @SuppressWarnings("UnusedParameters")
     public abstract static class Callback {
+
+        public void onCameraReady(SnapCameraView cameraView) {
+
+        }
 
         /**
          * Called when camera is opened.

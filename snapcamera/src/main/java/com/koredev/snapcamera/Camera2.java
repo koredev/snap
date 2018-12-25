@@ -771,6 +771,7 @@ class Camera2 extends CameraViewImpl implements MediaRecorder.OnInfoListener, Me
                 mPreviewRequestBuilder.addTarget(mScanImageReader.getSurface());
             }
             mCamera.createCaptureSession(Arrays.asList(surface, mStillImageReader.getSurface(), mScanImageReader.getSurface()), mSessionCallback, backgroundHandler);
+            mCallback.onCameraReady();
         } catch (CameraAccessException e) {
             mCallback.onMountError();
         }

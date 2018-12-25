@@ -186,6 +186,7 @@ class Camera1 extends CameraViewImpl implements MediaRecorder.OnInfoListener,
     private void startCameraPreview() {
         mCamera.startPreview();
         mIsPreviewActive = true;
+        mCallback.onCameraReady();
         if (mIsScanning) {
             mCamera.setPreviewCallback(this);
         }

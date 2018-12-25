@@ -115,6 +115,8 @@ abstract class CameraViewImpl {
 
     interface Callback {
 
+        void onCameraReady();
+
         void onCameraOpened();
 
         void onCameraClosed();
